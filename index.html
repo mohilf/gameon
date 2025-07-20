@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game On - APK Upload and Download</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: transparent;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('bg.png') no-repeat center center / cover;      
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #007bff;
+    }
+
+    nav {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 300px;
+      margin-right: 10px;
+    }
+
+    .search-bar button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .search-bar button:hover {
+      background-color: #0056b3;
+    }
+
+    .app-list-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .app-list-section li {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f9f9f9;
+    }
+
+    .app-list-section a {
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    .app-list-section a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      padding: 10px;
+      background: #f1f1f1;
+    }
+
+    .message-section {
+      margin-top: 40px;
+    }
+
+    .message-section h3 {
+      text-align: center;
+    }
+
+    .message-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .message-form input,
+    .message-form textarea {
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .message-form button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .message-form button:hover {
+      background-color: #0056b3;
+    }
+
+    .admin-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .download-btn {
+      padding: 5px;
+      width: 100px;
+      text-align: center;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      background-color: #28a745;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background-color: #218838;
+    }
+
+    .delete-btn {
+      padding: 7px;
+      width: 70px;
+      text-align: center;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      background-color: #dc3545;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .delete-btn:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://i.postimg.cc/7hp5T2nL/Screenshot-18.png" alt="Game On's Logo">
+    <h1>Game On</h1>
+  </header>
+
+  <div class="container">
+    <nav class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search apps or games...">
+      <button id="searchBtn">Search</button>
+    </nav>
+
+    <section id="apps" class="app-list-section">
+      <h2>Available Apps and Games</h2>
+      <ul id="appList">
+        <!-- App items will be added dynamically -->
+      </ul>
+    </section>
+
+    <section class="message-section">
+      <h3>Leave a Message</h3>
+      <form action="https://formspree.io/f/mzzdzorg" method="POST" class="message-form">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="text" name="email" placeholder="Your E-mail" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <footer>&copy; 2025 Game On</footer>
+  </div>
+
+  <script>
+    const apps = [
+      { name: "Free Fire Tournament", version: "1.0", downloadLink: "https://docs.google.com/uc?export=download&id=1kzn50iv-4iSyW6hT4er80LnFn23prQt-" },
+      { name: "FF Sports", version: "1.0", downloadLink: "https://docs.google.com/uc?export=download&id=11fjbgy_ErKHMJBJIDHDDztRYYc_Mu9tp" },
+      { name: "Tiles Titans", version: "1.0", downloadLink: "https://docs.google.com/uc?export=download&id=1Jl0Tx3dr2JcJeKQQ0NlPIW1Tu61oQ5w2" },
+      { name: "Tiles Titans", version: "1.0", downloadLink: "NO LIFE.apk" },
+    ];
+
+    const adminPassword = "mohi99221";
+
+    const appList = document.getElementById("appList");
+    const searchInput = document.getElementById("searchInput");
+    const searchBtn = document.getElementById("searchBtn");
+
+    function displayApps(filteredApps = apps) {
+      appList.innerHTML = "";
+      filteredApps.forEach((app, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span>${app.name} (v${app.version})</span>
+          <div class="admin-controls">
+            <a href="${app.downloadLink}" class="download-btn" download>Download</a>
+            <button class="delete-btn" onclick="deleteApp(${index})">Delete</button>
+          </div>
+        `;
+        appList.appendChild(li);
+      });
+    }
+
+    searchBtn.addEventListener("click", () => {
+      const searchTerm = searchInput.value.toLowerCase();
+      const filteredApps = apps.filter((app) =>
+        app.name.toLowerCase().includes(searchTerm)
+      );
+      displayApps(filteredApps);
+    });
+
+    function deleteApp(index) {
+      const password = prompt("Enter admin password to delete this app:");
+      if (password === adminPassword) {
+        apps.splice(index, 1);
+        displayApps();
+      } else {
+        alert("Incorrect password. You are not authorized to delete apps.");
+      }
+    }
+
+    displayApps();
+  </script>
+
+</body>
+</html>
